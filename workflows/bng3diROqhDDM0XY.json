@@ -36,6 +36,27 @@
       ],
       "id": "643b3c92-ed94-4e4d-a307-dcf3b8119dd6",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f36b86ac-420d-4965-bc07-d217d21a9c65",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "QkG0qQzixwuC9BxF",
+          "name": "Newcres5678"
+        }
+      }
     }
   ],
   "connections": {
@@ -49,13 +70,24 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "triggerCount": 0,
-  "versionId": "2f1aba8a-3c07-4af0-9744-a66f8624b08c",
+  "versionId": "ab1b3b2c-3ec0-4807-9fed-0c14e6a88d0a",
   "owner": {
     "type": "team",
     "teamId": "bWlg5g0Fe385YQRy",

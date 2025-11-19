@@ -1,0 +1,16 @@
+{
+  "id": "SDGoIFlppnEcogKt",
+  "name": "My project 3",
+  "icon": {
+    "type": "icon",
+    "value": "layers"
+  },
+  "description": "",
+  "type": "team",
+  "owner": {
+    "type": "team",
+    "teamId": "SDGoIFlppnEcogKt",
+    "teamName": "My project 3"
+  },
+  "variableStubs": []
+}
