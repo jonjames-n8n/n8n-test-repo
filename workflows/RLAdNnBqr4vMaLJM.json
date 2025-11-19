@@ -1,6 +1,6 @@
 {
   "id": "RLAdNnBqr4vMaLJM",
-  "name": "My workflow 3",
+  "name": "BackupFlow",
   "nodes": [
     {
       "parameters": {},
@@ -42,10 +42,23 @@
       "name": "HTTP Request",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "x7ecsLJrtzc2CAXj",
-          "name": "Header Auth account 2"
+          "id": "rNmRnSdFIYYwlKtB",
+          "name": "cred3"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "8814e6f1-fd8c-4dbc-b7b0-72efec72bbc1",
+      "name": "Edit Fields1"
     }
   ],
   "connections": {
@@ -70,13 +83,24 @@
           }
         ]
       ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "triggerCount": 0,
-  "versionId": "b7407ca3-7f27-44d3-a3f1-a013b6ec4fc7",
+  "versionId": "8208b28f-38d3-476f-ab4d-8ee555493c81",
   "owner": {
     "type": "team",
     "teamId": "SDGoIFlppnEcogKt",
