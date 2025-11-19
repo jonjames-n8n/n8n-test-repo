@@ -25,6 +25,27 @@
       ],
       "id": "caf7cf7d-9777-41ce-bd79-fd43c1b3bb31",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "8f7ae957-1512-4843-90cd-ddb724ba82d7",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "x7ecsLJrtzc2CAXj",
+          "name": "Header Auth account 2"
+        }
+      }
     }
   ],
   "connections": {
@@ -38,13 +59,24 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "triggerCount": 0,
-  "versionId": "f115b0ec-bad5-49c7-97ea-a3032edf21aa",
+  "versionId": "b7407ca3-7f27-44d3-a3f1-a013b6ec4fc7",
   "owner": {
     "type": "team",
     "teamId": "SDGoIFlppnEcogKt",
