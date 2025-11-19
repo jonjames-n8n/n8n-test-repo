@@ -23,14 +23,39 @@
           "name": "Header Auth account"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "643b3c92-ed94-4e4d-a307-dcf3b8119dd6",
+      "name": "Edit Fields"
     }
   ],
-  "connections": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
   "triggerCount": 0,
-  "versionId": "e88a1ef4-8532-4cdc-b749-f59e809bd11c",
+  "versionId": "2f1aba8a-3c07-4af0-9744-a66f8624b08c",
   "owner": {
     "type": "team",
     "teamId": "bWlg5g0Fe385YQRy",
