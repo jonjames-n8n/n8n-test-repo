@@ -1,0 +1,64 @@
+{
+  "id": "kmVp6ns86JesppFm",
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "753189a2-bfb9-4baf-b0d5-aebd6e3c150b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "33becb51-74c9-44c3-a6bf-346e2db7cbc5",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "yfS4P8TM3xAUljy6",
+          "name": "My credential 1"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "04385e5e-692f-4c89-a604-96a547d2442e",
+  "owner": {
+    "type": "personal",
+    "projectId": "a2S8Xg90V1W9S5Na",
+    "projectName": "user user <user@email.com>",
+    "personalEmail": "user@email.com"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}

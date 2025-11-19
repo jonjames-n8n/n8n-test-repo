@@ -1,0 +1,15 @@
+{
+  "id": "yfS4P8TM3xAUljy6",
+  "name": "My credential 1",
+  "type": "httpHeaderAuth",
+  "data": {
+    "name": "",
+    "value": ""
+  },
+  "ownedBy": {
+    "type": "personal",
+    "projectId": "a2S8Xg90V1W9S5Na",
+    "projectName": "user user <user@email.com>",
+    "personalEmail": "user@email.com"
+  }
+}
