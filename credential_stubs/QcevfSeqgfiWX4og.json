@@ -1,0 +1,14 @@
+{
+  "id": "QcevfSeqgfiWX4og",
+  "name": "Header Auth account",
+  "type": "httpHeaderAuth",
+  "data": {
+    "name": "",
+    "value": ""
+  },
+  "ownedBy": {
+    "type": "team",
+    "teamId": "bWlg5g0Fe385YQRy",
+    "teamName": "My project"
+  }
+}

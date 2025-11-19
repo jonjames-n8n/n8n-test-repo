@@ -1,0 +1,41 @@
+{
+  "id": "bng3diROqhDDM0XY",
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "a205159b-bc56-4fc9-8008-4c7e548da8bd",
+        "authentication": "headerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4c583035-779f-4078-9f0f-9def0b430e51",
+      "name": "Webhook",
+      "webhookId": "a205159b-bc56-4fc9-8008-4c7e548da8bd",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "QcevfSeqgfiWX4og",
+          "name": "Header Auth account"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "e88a1ef4-8532-4cdc-b749-f59e809bd11c",
+  "owner": {
+    "type": "team",
+    "teamId": "bWlg5g0Fe385YQRy",
+    "teamName": "My project"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}
