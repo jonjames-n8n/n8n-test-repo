@@ -1,0 +1,30 @@
+{
+  "id": "VKymL3p7tlgWIdzA",
+  "name": "i am a workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "22958000-53a6-46ec-9f36-4cb0bf6dcff0",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "1ba10e77-6da9-4261-99f2-f58e37470548",
+  "owner": {
+    "type": "team",
+    "teamId": "1u4DqplQRcD3YYjc",
+    "teamName": "My project dalawa"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}
