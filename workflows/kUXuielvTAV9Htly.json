@@ -1,0 +1,30 @@
+{
+  "id": "kUXuielvTAV9Htly",
+  "name": "118 env 2 workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "aad26955-9791-4cfa-aac6-f03e2a676532",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "1decb8bd-f880-4e26-9447-93a1857c4ca8",
+  "owner": {
+    "type": "team",
+    "teamId": "nKrlIFMNQfuckYj3",
+    "teamName": "My project"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}

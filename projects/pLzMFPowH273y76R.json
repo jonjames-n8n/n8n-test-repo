@@ -1,0 +1,16 @@
+{
+  "id": "pLzMFPowH273y76R",
+  "name": "My project 117",
+  "icon": {
+    "type": "icon",
+    "value": "folder-plus"
+  },
+  "description": null,
+  "type": "team",
+  "owner": {
+    "type": "team",
+    "teamId": "pLzMFPowH273y76R",
+    "teamName": "My project 117"
+  },
+  "variableStubs": []
+}
