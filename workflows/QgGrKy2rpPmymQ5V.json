@@ -1,0 +1,30 @@
+{
+  "id": "QgGrKy2rpPmymQ5V",
+  "name": "117 wf",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "03634ce3-14a7-4650-a2cb-8c376500774a",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "49a3f068-3dec-4276-ade0-1154d53ea4f6",
+  "owner": {
+    "type": "team",
+    "teamId": "MAzyI3YLZIo1nEns",
+    "teamName": "117 proj 2"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}
