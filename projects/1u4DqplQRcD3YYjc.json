@@ -1,0 +1,13 @@
+{
+  "id": "1u4DqplQRcD3YYjc",
+  "name": "My project dalawa",
+  "icon": null,
+  "description": null,
+  "type": "team",
+  "owner": {
+    "type": "team",
+    "teamId": "1u4DqplQRcD3YYjc",
+    "teamName": "My project dalawa"
+  },
+  "variableStubs": []
+}

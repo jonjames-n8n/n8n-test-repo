@@ -1,0 +1,16 @@
+{
+  "id": "oHNicAKhOMOtkQlP",
+  "name": "new 1.118.1 project",
+  "icon": {
+    "type": "icon",
+    "value": "layers"
+  },
+  "description": "environment 3",
+  "type": "team",
+  "owner": {
+    "type": "team",
+    "teamId": "oHNicAKhOMOtkQlP",
+    "teamName": "new 1.118.1 project"
+  },
+  "variableStubs": []
+}
