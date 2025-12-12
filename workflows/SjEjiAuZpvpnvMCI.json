@@ -1,0 +1,58 @@
+{
+  "id": "SjEjiAuZpvpnvMCI",
+  "name": "Test Credential Sharing",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "dc0d55e2-a3c7-4108-8c23-58f8fd70ad29",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        48
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://httpbin.org/headers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "f58d83a2-3091-4fec-b433-8701db55424d",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -240,
+        48
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "f3a6aec8-5620-4078-9eb8-566aff1520f3",
+  "owner": {
+    "type": "team",
+    "teamId": "aCFfOfzzyKSQghM3",
+    "teamName": "Test Project"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}
