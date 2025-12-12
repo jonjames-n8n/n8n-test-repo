@@ -1,0 +1,13 @@
+{
+  "id": "9yLwVQ1WayA7PIMJ",
+  "name": "Jon Cred",
+  "type": "httpHeaderAuth",
+  "data": {
+    "name": ""
+  },
+  "ownedBy": {
+    "type": "team",
+    "teamId": "aCFfOfzzyKSQghM3",
+    "teamName": "Test Project"
+  }
+}
