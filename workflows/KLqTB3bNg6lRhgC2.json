@@ -51,6 +51,29 @@
       ],
       "id": "cf6f5e5e-55da-43fd-9c8b-2495a72ff4fd",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "toRecipients": "jbuk101@gmail.com",
+        "subject": "outlook trigger",
+        "bodyContent": "if you're reading this then it worked",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "9f17d43f-48f8-4c6c-bb5e-95aa61822a40",
+      "name": "Send a message",
+      "webhookId": "4dd025bf-5b09-437e-a061-019e47a3d04d",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
     }
   ],
   "connections": {
@@ -64,13 +87,24 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "triggerCount": 1,
-  "versionId": "45148749-24f0-449c-980f-ca0ee3d3d92b",
+  "versionId": "eae1bb7b-c856-4d2b-9ffa-d072190b6064",
   "owner": {
     "type": "personal",
     "projectId": "TiIx8aSrjHVV0B92",
