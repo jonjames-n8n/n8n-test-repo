@@ -28,14 +28,49 @@
           "name": "Microsoft Outlook account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1ba126df-7e3b-46b6-b435-2c2a2bf830c4",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "cf6f5e5e-55da-43fd-9c8b-2495a72ff4fd",
+      "name": "Edit Fields"
     }
   ],
-  "connections": {},
+  "connections": {
+    "Microsoft Outlook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
-  "triggerCount": 0,
-  "versionId": "4d6221a6-1ccc-45cf-85c9-1fb0ff7e702e",
+  "triggerCount": 1,
+  "versionId": "45148749-24f0-449c-980f-ca0ee3d3d92b",
   "owner": {
     "type": "personal",
     "projectId": "TiIx8aSrjHVV0B92",
