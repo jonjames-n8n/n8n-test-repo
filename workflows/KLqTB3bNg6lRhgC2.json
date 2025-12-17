@@ -1,0 +1,47 @@
+{
+  "id": "KLqTB3bNg6lRhgC2",
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "baaf0d85-dbef-4318-9a84-5a365fefe8c1",
+      "name": "Microsoft Outlook Trigger",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "4d6221a6-1ccc-45cf-85c9-1fb0ff7e702e",
+  "owner": {
+    "type": "personal",
+    "projectId": "TiIx8aSrjHVV0B92",
+    "projectName": "Jon James <jon.james@n8n.io>",
+    "personalEmail": "jon.james@n8n.io"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}

@@ -1,0 +1,16 @@
+{
+  "id": "UJVlBQbdSLv4ukF2",
+  "name": "Microsoft Outlook account",
+  "type": "microsoftOutlookOAuth2Api",
+  "data": {
+    "clientId": "",
+    "clientSecret": "",
+    "csrfSecret": ""
+  },
+  "ownedBy": {
+    "type": "team",
+    "teamId": "aCFfOfzzyKSQghM3",
+    "teamName": "Test Project"
+  },
+  "isGlobal": false
+}

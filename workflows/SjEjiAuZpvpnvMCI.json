@@ -27,7 +27,13 @@
       "position": [
         -240,
         48
-      ]
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "9yLwVQ1WayA7PIMJ",
+          "name": "Jon Cred"
+        }
+      }
     }
   ],
   "connections": {
@@ -47,7 +53,7 @@
     "executionOrder": "v1"
   },
   "triggerCount": 0,
-  "versionId": "f3a6aec8-5620-4078-9eb8-566aff1520f3",
+  "versionId": "2fb4fbc9-0c35-4e34-ac2b-5f8203ae048c",
   "owner": {
     "type": "team",
     "teamId": "aCFfOfzzyKSQghM3",

@@ -1,11 +1,8 @@
 {
   "id": "SDGoIFlppnEcogKt",
   "name": "My project 3",
-  "icon": {
-    "type": "icon",
-    "value": "layers"
-  },
-  "description": "",
+  "icon": null,
+  "description": null,
   "type": "team",
   "owner": {
     "type": "team",

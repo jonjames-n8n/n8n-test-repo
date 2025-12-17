@@ -1,10 +1,7 @@
 {
   "id": "nKrlIFMNQfuckYj3",
   "name": "My project",
-  "icon": {
-    "type": "icon",
-    "value": "layers"
-  },
+  "icon": null,
   "description": null,
   "type": "team",
   "owner": {

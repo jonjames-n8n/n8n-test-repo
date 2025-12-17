@@ -1,10 +1,7 @@
 {
   "id": "pLzMFPowH273y76R",
   "name": "My project 117",
-  "icon": {
-    "type": "icon",
-    "value": "folder-plus"
-  },
+  "icon": null,
   "description": null,
   "type": "team",
   "owner": {

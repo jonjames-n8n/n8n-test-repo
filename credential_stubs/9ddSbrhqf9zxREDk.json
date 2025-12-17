@@ -1,0 +1,16 @@
+{
+  "id": "9ddSbrhqf9zxREDk",
+  "name": "Microsoft Outlook account 2",
+  "type": "microsoftOutlookOAuth2Api",
+  "data": {
+    "clientId": "",
+    "clientSecret": ""
+  },
+  "ownedBy": {
+    "type": "personal",
+    "projectId": "TiIx8aSrjHVV0B92",
+    "projectName": "Jon James <jon.james@n8n.io>",
+    "personalEmail": "jon.james@n8n.io"
+  },
+  "isGlobal": false
+}
