@@ -1,0 +1,3554 @@
+{
+  "id": "4D1Dy1XfKNONe3F2",
+  "name": "Mail_debitorbogholderi_v2",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1968,
+        1376
+      ],
+      "id": "b6e2953f-f00d-4e62-8f20-5e7bad540233",
+      "name": "Microsoft Outlook Trigger",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1609bb48-4bbd-4edc-92a6-12d68592fe47",
+              "leftValue": "={{ $json.from }}",
+              "rightValue": "@ao.dk",
+              "operator": {
+                "type": "string",
+                "operation": "endsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1616,
+        1376
+      ],
+      "id": "2a626fe5-7b66-4a06-aeb4-35e4b151145c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3588618c-5c26-4cc2-9f38-e80c6c800090",
+              "leftValue": "={{ $('Microsoft Outlook Trigger').item.json.from }}",
+              "rightValue": "={{ $json.Rule }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1184,
+        1600
+      ],
+      "id": "393b7156-fd59-40cc-aead-422a8f330426",
+      "name": "Filter",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        112,
+        16
+      ],
+      "id": "bf26874b-1177-4f9f-8dbb-b67ad337028e",
+      "name": "GET Intern prompts",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        -1424,
+        1600
+      ],
+      "id": "fe632f59-210d-40c9-827b-68553cf48d79",
+      "name": "GET Rules",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $('Microsoft Outlook Trigger').item.json.subject }}",
+        "bodyContent": "={{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "additionalFields": {
+          "from": "={{ $json.RulesEmail }}",
+          "toRecipients": "={{ $json.RulesSend }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        -544,
+        1440
+      ],
+      "id": "cf36d452-4081-4b84-97e7-189c4a790069",
+      "name": "Create a draft",
+      "webhookId": "3548700d-dd56-4004-a1db-125369e56dce",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "95323729-f802-47cb-b5ad-8cdb13f3f568"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -736,
+        1440
+      ],
+      "id": "d969094c-fda4-4fa8-b5b2-53a7cecf506f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Fakturakopi",
+              "description": "Fakturakopi – Kunden beder om at få tilsendt en kopi af en faktura, en kvittering eller dokumentation for en tidligere ordre."
+            },
+            {
+              "category": "Fejlfakturering",
+              "description": "Fejlfakturering – Kunden mener, der er en fejl i fakturaen (pris, antal, varer, rabat eller lignende)."
+            },
+            {
+              "category": "Kontokode",
+              "description": "Kontokode – Kunden efterspørger kontokode, kontoudtog eller adgangskode til økonomisystemet."
+            },
+            {
+              "category": "Manglende sagsnummer",
+              "description": "Manglende sagsnummer – Mailen kan ikke behandles, fordi kunden ikke har angivet sagsnummer, ordrenummer eller lignende reference."
+            },
+            {
+              "category": "Kontoudtog",
+              "description": "Kontoudtog – Kunden beder om at få tilsendt et kontoudtog, en oversigt over kontobevægelser eller dokumentation for økonomiske posteringer på deres AO-konto."
+            },
+            {
+              "category": "Andet",
+              "description": "Andet – Alt andet, der ikke passer i de fire ovenstående kategorier."
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "https://M3TEST.ao-vvs.dk:22110/m3api-rest/v2/execute/OIS350MI/LstInvLine\n\n{{$vars.M3API + \"CRZ910MI/GetCustomerSett\"}}\n\n\nKomplet klassifikationsprompt\n\nSystem (rolle: system):\n\nDu er en e-mailklassifikationsassistent.\nDu skal analysere en kundemail og klassificere den i præcis én kategori ud fra indholdet {{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}\nReturnér kun ét klassifikationsnavn som output — ingen forklaring, ingen ekstra tekst.\n\nDe mulige klassifikationer er:\n\nFakturakopi – Kunden beder om at få tilsendt en kopi af en faktura, en kvittering eller dokumentation for en tidligere ordre.\n\nFejlfakturering – Kunden mener, der er en fejl i fakturaen (pris, antal, varer, rabat eller lignende).\n\nKontokode – Kunden efterspørger kontokode, kontoudtog eller adgangskode til økonomisystemet.\n\nManglende sagsnummer – Mailen kan ikke behandles, fordi kunden ikke har angivet sagsnummer, ordrenummer eller lignende reference.\nKontoudtog – Kunden beder om at få tilsendt et kontoudtog, en oversigt over kontobevægelser, købshistorik, saldi eller økonomiske posteringer på deres AO-konto.\n\nAndet – Alt andet, der ikke passer i de fire ovenstående kategorier.\n\nReturnér kun ét ord som output:\nFakturakopi / Fejlfakturering / Kontokode / Manglende sagsnummer / Kontoudtog / Andet\n\nEksempler:\n\nEksempel 1:\nInput:\n\n\"Hej AO, jeg mangler en kopi af fakturaen fra mit køb i sidste måned.\"\nOutput:\nFakturakopi\n\nEksempel 2:\nInput:\n\n\"Jeg har modtaget en faktura, men den viser 20 stk., selvom jeg kun bestilte 10. Kan I tjekke det?\"\nOutput:\nFejlfakturering\n\nEksempel 3:\nInput:\n\n\"Kan jeg få tilsendt kontokoden til vores AO-konto?\"\nOutput:\nKontokode\n\nEksempel 4:\nInput:\n\n\"Jeg skal have ændret noget på fakturaen, men jeg har desværre ikke sagsnummeret lige nu.\"\nOutput:\nManglende sagsnummer\n\nEksempel 5:\nInput:\n\n\"Hej, jeg vil gerne høre, om I har åbent i weekenden?\"\nOutput:\nAndet\n\nEksempel 6:\nInput:\n\n\"Faktura 19381999 mangler rabatten på 10%. Det må være en fejl.\"\nOutput:\nFejlfakturering\n\nEksempel 7:\nInput:\n\n\"Jeg kan ikke finde min faktura i systemet – kan I sende mig en kopi?\"\nOutput:\nFakturakopi\n\nEksempel 8:\nInput:\n\n\"Vores regnskabsafdeling har brug for kontokoden igen, den virker ikke længere.\"\nOutput:\nKontokode\n\nEksempel 9:\nInput:\n\n\"Denne henvendelse kan ikke behandles uden sagsnummer – venligst oplys nummeret.\"\nOutput:\nManglende sagsnummer\n\nEksempel 10:\nInput:\n\n\"Jeg vil gerne vide, om der er levering på lager i Aalborg.\"\nOutput:\nAndet \nEksempel 11:\nInput:\n\"Kan I sende mig et kontoudtog for vores køb i januar? Vores bogholderi mangler overblikket.\"\nOutput:\nKontoudtog\n________________________________________\nEksempel 12:\nInput:\n\"Jeg kan ikke finde mine posteringer i systemet – kan I fremsende et kontoudtog for de seneste tre måneder?\"\nOutput:\nKontoudtog\n\nOutputformat\nFakturakopi\nFejlfakturering\nKontokode\nManglende sagsnummer\nKontoudtog\nAndet\n\n“Kan I sende mig et kontoudtog for december?”\n→ Kontoudtog\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -672,
+        1632
+      ],
+      "id": "74ac7789-4615-4be9-a308-90af03660174",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -848,
+        1792
+      ],
+      "id": "5609959c-da59-48f0-84d3-eec947b819ed",
+      "name": "OpenAI Chat Model2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Get many messages in Microsoft Outlook",
+        "operation": "getAll",
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTool",
+      "typeVersion": 2,
+      "position": [
+        2656,
+        2816
+      ],
+      "id": "6aaf842a-4835-427e-9f17-32075e0ef4a8",
+      "name": "Get many messages in Microsoft Outlook",
+      "webhookId": "f46deb5f-713d-45f4-a083-33484f074c40",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2224,
+        2832
+      ],
+      "id": "2d07dd09-e8b4-4a21-90f8-ca9dc2ebf8a1",
+      "name": "OpenAI Chat Model1"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        640,
+        2656
+      ],
+      "id": "94a381b1-f8ae-4dd2-85f8-8372273d83d0",
+      "name": "Henter prompter",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        2656
+      ],
+      "id": "563a836a-6503-4f2c-97b5-4bfde049363a",
+      "name": "Henter skrivestil",
+      "executeOnce": true,
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "30ab9d1a-6ee8-4054-b443-2de5077c3ab1",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -960,
+        1600
+      ],
+      "id": "0d5a1fad-90e5-4046-ad90-73c10c9834ab",
+      "name": "Intern / Extern",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "33d22f91-66ae-4c04-bb17-6ac840784fb1",
+              "leftValue": "={{ $json.StyleEmail }}",
+              "rightValue": "={{ $('Microsoft Outlook Trigger').item.json.to[0] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1408,
+        2656
+      ],
+      "id": "bf3bc848-51fb-4886-b276-fe5c045fb3fa",
+      "name": "Filter skrivestil"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "message": "={{ $('AI Agent Extren mails').item.json.output }}",
+        "options": {
+          "saveAsDraft": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        2912,
+        2656
+      ],
+      "id": "c777bd32-0f53-4f53-944f-f65f0edd7325",
+      "name": "Reply to a message",
+      "webhookId": "1183d48a-a9fd-4dbb-84eb-a6cd8fdb7ee6",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        2656
+      ],
+      "id": "05deb91b-ba44-48d1-b050-a1ee4e1b80a1",
+      "name": "Henter signatur",
+      "executeOnce": true,
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        832,
+        16
+      ],
+      "id": "0403c2c2-f8ab-4e2f-a058-882652db2baf",
+      "name": "Get Skrivestil",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        16
+      ],
+      "id": "0c641742-4292-4b7d-897c-366d654d0c04",
+      "name": "Get signatur",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "message": "={{ $json.output }}",
+        "options": {
+          "saveAsDraft": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        2800,
+        16
+      ],
+      "id": "0334b965-6023-4c8c-b017-a3e2b4e5157e",
+      "name": "Reply to a message1",
+      "webhookId": "d4666975-f747-4a08-a9af-24a45c84ed3a",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Du er en AI-agent, der udarbejder kladdebesvarelser til indgående e-mails for Brdr. A & O Johansen.\n\nFor hver indgående e-mail (uden undtagelse):\n- Udarbejd altid en komplet svartekst, der kan gemmes som en kladde i Outlook.\n- Opret altid en kladde – også ved spam, irrelevante eller uklare beskeder.\n- Hvis beskeden er uklar, besvar ved at anmode om præcisering.\n- Hvis beskeden er irrelevant, besvar eller afslå høfligt.\n\n🔄 Proces:\n- Søg i Outlook efter tidligere beskeder til/fra samme afsender og opsummer relevant historik.\n- Udarbejd et svar, som kan sendes direkte uden ændringer.\n\n📌 Prioriteter:\n- Udarbejd altid en komplet kladde.\n- Følg eksplicitte instruktioner fra brugeren (se personlig del).\n- Følg evt. regler fra Softr eller tilsvarende specifikationer.\n- Bevar kontinuitet med tidligere tone og forpligtelser.\n- Brug bedst mulig vurdering, når ingen regel gælder.\n\n🛡️ Sikkerhedsrammer:\n- Ingen hallucinationer.\n- Hvis vigtig info mangler, stil 1–2 målrettede spørgsmål i svaret.\n- Hvis en forespørgsel overtræder en regel, afslå høfligt og tilbyd et tilladt alternativ.\n- Overhold tidligere aftaler fra samtalehistorikken.\n\n📧 Outputformat:\n- Brug semantiske HTML-tags (p, h1–h6, ul, ol, strong, em, osv.)\n- Inkluder basal CSS-styling for professionelt e-mail-udseende\n- Ingen hilsner eller afslutninger, medmindre konteksten kræver det\n\n\n🖋️ Stil:\n-Start mailen med at skrive \"Hej [navn]\" hvis du kan læse nanet på afsenderen eller kun \"Hej,\"\n- Brug [navn]’s stemme og tone.\n- Stilen skal være varm, professionel og direkte.\n- Virksomhedsnavn: Brdr. A & O Johansen.",
+        "options": {
+          "systemMessage": "=Indgående e-mail: {{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}\n\nAfsender: {{ $('Microsoft Outlook Trigger').item.json.from }}\n\nsubjekt: {{ $('Microsoft Outlook Trigger').item.json.subject }}\n\nBrug disse specifikke instruktioner:{{ $('Filter prompt').item.json.Prompt }}\n\nUnderskriv med:{{ $('Get signatur').item.json.Description }}\nSkrivestil: {{ $('Filter skrivestil1').item.json.WritingStyle }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2240,
+        16
+      ],
+      "id": "c2ec4a43-8b7e-4dee-83e4-1c4fe59baca9",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Get many messages in Microsoft Outlook",
+        "operation": "getAll",
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTool",
+      "typeVersion": 2,
+      "position": [
+        2528,
+        176
+      ],
+      "id": "f7db5abb-9fe7-4b1d-940c-d2a4210a1dd1",
+      "name": "Get many messages in Microsoft Outlook1",
+      "webhookId": "97b9103f-cba6-4fb5-95ca-cc87106da076",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2112,
+        160
+      ],
+      "id": "0d7f02d5-512e-455b-b62a-4cb792bf7787",
+      "name": "OpenAI Chat Model3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "24c6e3ea-42cb-46dd-b388-d362afe084da",
+              "leftValue": "={{ $json.Priority.label }}",
+              "rightValue": "={{\"Extern\"}}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        2656
+      ],
+      "id": "19f9ffb3-93c6-4436-b06f-ad8ec3011db7",
+      "name": "Filter Prompt"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f7f6f964-c967-4520-9fb7-56b048b6944e",
+              "leftValue": "={{ $json.SignaturEmail }}",
+              "rightValue": "={{ $('Microsoft Outlook Trigger').item.json.to[0] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1984,
+        2656
+      ],
+      "id": "e99688f6-a8e1-4e1f-86f0-29c657234feb",
+      "name": "Filter signatur"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Du er en AI-agent, der udarbejder kladdebesvarelser til indgående e-mails for Brdr. A & O Johansen.\n\nFor hver indgående e-mail (uden undtagelse):\n- Udarbejd altid en komplet svartekst, der kan gemmes som en kladde i Outlook.\n- Opret altid en kladde – også ved spam, irrelevante eller uklare beskeder.\n- Hvis beskeden er uklar, besvar ved at anmode om præcisering.\n- Hvis beskeden er irrelevant, besvar eller afslå høfligt.\n\n🔄 Proces:\n- Søg i Outlook efter tidligere beskeder til/fra samme afsender og opsummer relevant historik.\n- Udarbejd et svar, som kan sendes direkte uden ændringer.\n\n📌 Prioriteter:\n- Udarbejd altid en komplet kladde.\n- Følg eksplicitte instruktioner fra brugeren (se personlig del).\n- Følg evt. regler fra Softr eller tilsvarende specifikationer.\n- Bevar kontinuitet med tidligere tone og forpligtelser.\n- Brug bedst mulig vurdering, når ingen regel gælder.\n\n🛡️ Sikkerhedsrammer:\n- Ingen hallucinationer.\n- Hvis vigtig info mangler, stil 1–2 målrettede spørgsmål i svaret.\n- Hvis en forespørgsel overtræder en regel, afslå høfligt og tilbyd et tilladt alternativ.\n- Overhold tidligere aftaler fra samtalehistorikken.\n\n📧 Outputformat:\n- Brug semantiske HTML-tags (p, h1–h6, ul, ol, strong, em, osv.)\n- Inkluder basal CSS-styling for professionelt e-mail-udseende\n- Ingen hilsner eller afslutninger, medmindre konteksten kræver det\n\n\n🖋️ Stil:\n-Start mailen med at skrive \"Hej [navn]\" hvis du kan læse nanet på afsenderen eller kun \"Hej,\"\n- Brug [navn]’s stemme og tone.\n- Stilen skal være varm, professionel og direkte.\n- Virksomhedsnavn: Brdr. A & O Johansen.",
+        "options": {
+          "systemMessage": "=Indgående e-mail: {{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}\n\nAfsender: {{ $('Microsoft Outlook Trigger').item.json.from }}\n\nsubjekt: {{ $('Microsoft Outlook Trigger').item.json.subject }}\n\nBrug disse specifikke instruktioner: {{ $('Filter Prompt').item.json.Prompt }}\n\nUnderskriv med: {{ $json.Description }}\nSkrivestil: {{ $('Filter skrivestil').item.json.WritingStyle }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2368,
+        2656
+      ],
+      "id": "8c731b6a-59f8-4b32-b02a-9146420aa88a",
+      "name": "AI Agent Extren mails"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7ddf23a6-8311-43c4-bf80-335eace175fe",
+              "leftValue": "={{ $json.User.label }}",
+              "rightValue": "={{ $('Microsoft Outlook Trigger').item.json.to[0] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ed7283b1-0b1e-47bc-bd1e-e35f9020db71",
+              "leftValue": "={{ $json.Priority.label }}",
+              "rightValue": "={{\"Intern\"}}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        16
+      ],
+      "id": "c4cc8137-356d-4607-9344-6dba78a32fed",
+      "name": "Filter prompt"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "615aef8b-ee5b-4c1c-8fdd-4b4478bf7138",
+              "leftValue": "={{ $json.StyleEmail }}",
+              "rightValue": "={{ $('Microsoft Outlook Trigger').item.json.to[0] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1088,
+        16
+      ],
+      "id": "4495da2b-3f0e-49d9-bbcc-eed565468176",
+      "name": "Filter skrivestil1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c188857f-a990-490b-afb3-f1c29d77ddfa",
+              "leftValue": "={{ $json.SignaturEmail }}",
+              "rightValue": "={{ $('Microsoft Outlook Trigger').item.json.to[0] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        16
+      ],
+      "id": "533ea4a6-d754-4aa2-b8a8-84e050b9c7ff",
+      "name": "Filter signatur1"
+    },
+    {
+      "parameters": {
+        "content": "1067439033\n\nhttps://ao.dk/api/DineFaktura/HentFaktura?fakturanummer=20429841"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        976,
+        16
+      ],
+      "id": "b394bb26-e28a-49c2-9349-0ef2a1d56334",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"MDBREADMI/GetOOHEAD00\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "ORNO",
+              "value": "={{ $json.results[0].records[0].ORNO }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2080,
+        816
+      ],
+      "id": "69260c8d-7aff-481d-bc8e-d1ec881b6e0c",
+      "name": "HTTP Request",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "options": {
+          "systemMessage": "Du er et værktøj, der KUN skal udtrække et fakturanummer fra en kundemail.\n\nRegler:\n\nFakturanummeret er et tal (evt. med foranstillede nuller), typisk et samlet cifferløb uden bogstaver.\n\nHvis der står flere tal i mailen, skal du vælge det tal, der tydeligt er angivet som fakturanummer, f.eks. ved ord som “faktura”, “fakturanr.”, “invoice no.” eller lignende.\n\nDu må KUN svare med selve fakturanummeret – ingen tekst før eller efter, ingen forklaringer, ingen citationstegn.\n\nHvis du med høj sikkerhed vurderer, at der ikke findes et fakturanummer i teksten, skal du svare præcis med:\n\nNONE\n\nOutput:\n\nEnten: kun fakturanummeret (f.eks. 12345678)\n\nEller: NONE"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        272,
+        736
+      ],
+      "id": "cffac341-749c-4358-92ec-48b6629c5f95",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        112,
+        880
+      ],
+      "id": "ee2f5287-163c-418d-b789-678053741ed3",
+      "name": "OpenAI Chat Model4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5e386312-f6a7-48b7-816e-c208a2c33e88",
+              "leftValue": "={{ $json.results[0].records[0].ORNO }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1984,
+        432
+      ],
+      "id": "b4951fb4-2961-4422-9094-9efd03a19d15",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        608
+      ],
+      "id": "3f747fea-7796-4b45-a5a9-5902ea90d39f",
+      "name": "Get many records",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "message": "={{ $('Get many records').item.json['Convert to hltm'] }} på dette fakturanummer  {{ $('AI Agent').item.json.output }}\n<br>\n{{ $json['Long text'] }}\n",
+        "options": {
+          "saveAsDraft": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        3008,
+        608
+      ],
+      "id": "2a0e0e35-8c8c-41e1-8391-6a3e4bb2aa96",
+      "name": "Reply to a message2",
+      "webhookId": "e5efa41e-0568-4032-b6d3-fc6cd9c9e5c0",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "message": "={{ $('Get many records1').item.json['Convert to hltm'] }}\n<br>\n\n<p>Fakturanummer: <strong>{{ $('AI Agent').item.json.output }}</strong></p>\n\n<p>\n    <a href=\"{{ `https://ao.dk/api/DineFaktura/HentFaktura?fakturanummer=${$('AI Agent').item.json.output}` }}\" \n       target=\"_blank\">\n       Klik her for at åbne fakturaen\n    </a>\n</p>\n\n<br>\n{{ $json['Long text'] }}",
+        "options": {
+          "saveAsDraft": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        416
+      ],
+      "id": "3ea77305-d3d4-47f9-893d-ea3d3d5dcfc8",
+      "name": "Reply to a message3",
+      "webhookId": "ce511536-f2f9-47bc-be3d-43744919da6b",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        416
+      ],
+      "id": "ad3a61ec-42c9-4222-a32c-a0d659243d40",
+      "name": "Get many records1",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        416
+      ],
+      "id": "846f04a6-00e4-4dfe-ab8b-0287235d1d4f",
+      "name": "Get many records2",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "url": "https://M3TEST.ao-vvs.dk:22110/m3api-rest/v2/execute/OIS350MI/GetInvHead?DIVI=AOJ&YEA4=2023&IVNO=010000015",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2720,
+        2656
+      ],
+      "id": "5a97fa63-6f7f-4173-8ae7-09a9f8c8ed28",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Priority.label",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        560,
+        16
+      ],
+      "id": "e59b2dc7-d8f7-4f32-9bdc-021b2d638ed9",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2023"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        864,
+        448
+      ],
+      "id": "a44f891b-09ba-473d-b014-30b6941dc57a",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1072,
+        448
+      ],
+      "id": "45b54943-6a0a-461d-b531-d50d13379fee",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "url": "{{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2024"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1280,
+        576
+      ],
+      "id": "224f44d6-8036-4586-9471-7acefcfd84a1",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1456,
+        576
+      ],
+      "id": "43114c68-a37a-455c-906f-dc20720588d6",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1824,
+        624
+      ],
+      "id": "b14a0750-4474-4bd9-80df-85e2683f032a",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "url": "{{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2025"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1632,
+        624
+      ],
+      "id": "579d44f9-cfd2-4ea2-85ab-32d89a911ad1",
+      "name": "HTTP Request8"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2736,
+        608
+      ],
+      "id": "27b1f336-4ade-4efd-bcaf-d201b946dce4",
+      "name": "Get many records3",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "options": {
+          "systemMessage": "Du er et værktøj, der KUN skal udtrække et fakturanummer fra en kundemail.\n\nRegler:\n\nFakturanummeret er et tal (evt. med foranstillede nuller), typisk et samlet cifferløb uden bogstaver.\n\nHvis der står flere tal i mailen, skal du vælge det tal, der tydeligt er angivet som fakturanummer, f.eks. ved ord som “faktura”, “fakturanr.”, “invoice no.” eller lignende.\n\nDu må KUN svare med selve fakturanummeret – ingen tekst før eller efter, ingen forklaringer, ingen citationstegn.\n\nHvis du med høj sikkerhed vurderer, at der ikke findes et fakturanummer i teksten, skal du svare præcis med:\n\nNONE\n\nOutput:\n\nEnten: kun fakturanummeret (f.eks. 12345678)\n\nEller: NONE"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        272,
+        976
+      ],
+      "id": "510ef6fa-3750-4fb9-acb1-dd251403460e",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        1184
+      ],
+      "id": "07003d7d-5c3c-4e15-aef1-5ebf57593525",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2023"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        672,
+        976
+      ],
+      "id": "22db0028-8905-4f42-8a7f-58361a861758",
+      "name": "HTTP Request10"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        832
+      ],
+      "id": "3d78b666-8640-48bc-a6b0-63345d04ed94",
+      "name": "If5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2024"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1120,
+        960
+      ],
+      "id": "909c9ec7-deb8-48a8-9bb4-33e3d31afd39",
+      "name": "HTTP Request11"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1296,
+        960
+      ],
+      "id": "815ae1f8-0443-4eca-9392-abf553d76913",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1664,
+        1008
+      ],
+      "id": "08a920f5-8708-4b45-9421-295e633df673",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2025"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1472,
+        1008
+      ],
+      "id": "39e1f10e-913d-4a20-8063-2aa71a3e759a",
+      "name": "HTTP Request12"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        1024
+      ],
+      "id": "45828014-5a78-4016-be5a-232127dfaff6",
+      "name": "Get many records4",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "message": "={{ $('Get many records4').item.json['Convert to hltm'] }} på dette fakturanummer  {{ $('AI Agent').item.json.output }}\n<br>\n{{ $json['Long text'] }}\n",
+        "options": {
+          "saveAsDraft": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        3024,
+        1024
+      ],
+      "id": "9b49093c-87a2-48d1-b865-5ad403045e5d",
+      "name": "Reply to a message4",
+      "webhookId": "f7f075b0-f251-4efb-9348-b86d8a44eb49",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        1024
+      ],
+      "id": "f18a2665-be27-4431-bf41-6075a034d71b",
+      "name": "Get many records5",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS100MI/GetHead \"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "ORNO",
+              "value": "={{ $json.results[0].records[0].ORNO }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1904,
+        816
+      ],
+      "id": "be6968cc-ddb4-4bc9-bbc6-dcf684d388d0",
+      "name": "HTTP Request3",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OPZ500MI/LstContactInfo\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "WHLO",
+              "value": "={{ $json.results[0].records[0].FRE1 }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2304,
+        816
+      ],
+      "id": "980af4dc-45e3-47de-853c-1c0b819feda9",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        816
+      ],
+      "id": "d89021b9-a698-43ac-ba81-d84dc7ad1774",
+      "name": "Get many records6",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2736,
+        816
+      ],
+      "id": "861df6f0-ca9e-4ab9-95c0-8dafe8e6d1dc",
+      "name": "Get many records7",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"MDBREADMI/GetOOHEAD00\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "ORNO",
+              "value": "={{ $json.results[0].records[0].ORNO }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2096,
+        1552
+      ],
+      "id": "46e55f2e-b64d-42ae-9e07-a7f1ee597a8e",
+      "name": "HTTP Request1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "options": {
+          "systemMessage": "Du er et værktøj, der KUN skal udtrække et fakturanummer fra en kundemail.\n\nRegler:\n\nFakturanummeret er et tal (evt. med foranstillede nuller), typisk et samlet cifferløb uden bogstaver.\n\nHvis der står flere tal i mailen, skal du vælge det tal, der tydeligt er angivet som fakturanummer, f.eks. ved ord som “faktura”, “fakturanr.”, “invoice no.” eller lignende.\n\nDu må KUN svare med selve fakturanummeret – ingen tekst før eller efter, ingen forklaringer, ingen citationstegn.\n\nHvis du med høj sikkerhed vurderer, at der ikke findes et fakturanummer i teksten, skal du svare præcis med:\n\nNONE\n\nOutput:\n\nEnten: kun fakturanummeret (f.eks. 12345678)\n\nEller: NONE"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        272,
+        1488
+      ],
+      "id": "e2b1a91c-6ba7-4c55-8cd5-f209ca3b04f5",
+      "name": "AI Agent3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        1616
+      ],
+      "id": "5fb8a9c9-b8c0-46ea-8041-472d6e8e357d",
+      "name": "OpenAI Chat Model5"
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2023"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        688,
+        1488
+      ],
+      "id": "8d52b03b-f38c-42a3-b36c-e15b4a76a767",
+      "name": "HTTP Request13"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        1568
+      ],
+      "id": "6d37cac0-8eca-4ce2-a342-7d18e6d3f06b",
+      "name": "If8",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2024"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1136,
+        1696
+      ],
+      "id": "897bdee0-3e63-4ec4-b126-e1d905ef9e60",
+      "name": "HTTP Request14"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1312,
+        1696
+      ],
+      "id": "10aeeb16-a363-4611-bb19-727c2a1ed628",
+      "name": "If9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cc8d0843-8ca6-4b5c-9a87-1fd878cdb96c",
+              "leftValue": "={{ $json.results[0].records[0].IVTP }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        1744
+      ],
+      "id": "bbde436e-69a7-481d-8a12-c1a9ac8096e1",
+      "name": "If10"
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2025"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1488,
+        1744
+      ],
+      "id": "9c26f97b-55e4-49fa-8f71-dd1b7f5b6703",
+      "name": "HTTP Request15"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        1760
+      ],
+      "id": "a10c85b6-90c0-405e-86e9-3db94a0cc5d9",
+      "name": "Get many records8",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "message": "={{ $('Get many records8').item.json['Convert to hltm'] }} på dette fakturanummer  {{ $('AI Agent').item.json.output }}\n<br>\n{{ $json['Long text'] }}\n",
+        "options": {
+          "saveAsDraft": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        1760
+      ],
+      "id": "824c3de2-07e7-4167-8349-8ddf8e4ed077",
+      "name": "Reply to a message5",
+      "webhookId": "8ffc6941-b37a-4a86-b88e-7d1200e69584",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        1760
+      ],
+      "id": "7e3e7aee-6e43-43d4-b6ca-d90cbcb1710a",
+      "name": "Get many records9",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS100MI/GetHead\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "ORNO",
+              "value": "={{ $json.results[0].records[0].ORNO }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1920,
+        1552
+      ],
+      "id": "509acfcf-7174-48fb-acd4-97722d7720de",
+      "name": "HTTP Request5",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OPZ500MI/LstContactInfo\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "WHLO",
+              "value": "={{ $json.results[0].records[0].FRE1 }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2320,
+        1552
+      ],
+      "id": "0233c4e8-7030-4ca1-ad32-1438405caad3",
+      "name": "HTTP Request9"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2528,
+        1552
+      ],
+      "id": "3be94a4b-ee61-4d45-a8c8-d474ef66236b",
+      "name": "Get many records10",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        1552
+      ],
+      "id": "9dab6adb-7d08-420f-a508-99a992e6c5ee",
+      "name": "Get many records11",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $('Microsoft Outlook Trigger').item.json.subject }}",
+        "bodyContent": "={{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "additionalFields": {
+          "ccRecipients": "={{ $('HTTP Request5').item.json.results[0].records[0].CHID }}@ao.dk",
+          "toRecipients": "={{ $('HTTP Request9').item.json.results[0].records[0].EMAL }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        1552
+      ],
+      "id": "0dc432c7-a5f6-4bae-b735-4e867c164fd3",
+      "name": "Create a draft2",
+      "webhookId": "6524b1c6-bed9-4e56-afe8-7f5bc9eb3aa5",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"OIS350MI/LstInvLine\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "YEA4",
+              "value": "2023"
+            },
+            {
+              "name": "DIVI",
+              "value": "AOJ"
+            },
+            {
+              "name": "IVNO",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2624,
+        3712
+      ],
+      "id": "e0b3d5af-c728-4f4d-9290-f9cafe691d1e",
+      "name": "HTTP Request17"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "86769ee1-0763-4f9c-95b4-2595208627de",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "NONE",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        640
+      ],
+      "id": "378c53f0-0707-4dd1-8319-ca254bc1932c",
+      "name": "If11"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $('Microsoft Outlook Trigger').item.json.subject }}",
+        "bodyContent": "={{ $('Get many records6').item.json.Answer }}\n\nFra: {{ $('Microsoft Outlook Trigger').item.json.from }}\n\nHer er indholdet af mailen:\n\n{{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "additionalFields": {
+          "ccRecipients": "={{ $('HTTP Request3').item.json.results[0].records[0].CHID}}@ao.dk",
+          "toRecipients": "={{ $('HTTP Request4').item.json.results[0].records[0].EMAL }}"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        3040,
+        816
+      ],
+      "id": "7fed4cf1-dce3-4f5d-95ba-cb551baa4250",
+      "name": "Create a draft1",
+      "webhookId": "385bc43d-48ea-45df-a405-f99eacdcc9ec",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"CRZ910MI/GetCustomerSett\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "CUNO",
+              "value": "1044124000"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2112,
+        3344
+      ],
+      "id": "37fcbcb3-dd01-4ff1-88a6-b06c04531f88",
+      "name": "HTTP Request16",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1904,
+        3344
+      ],
+      "id": "11349fab-b13b-41b0-ae02-dafda9fd4675",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Microsoft Outlook Trigger').item.json.bodyPreview }}",
+        "options": {
+          "systemMessage": "Du er et værktøj, der KUN skal udtrække et fakturanummer fra en kundemail.\n\nRegler:\n\nFakturanummeret er et tal (evt. med foranstillede nuller), typisk et samlet cifferløb uden bogstaver.\n\nHvis der står flere tal i mailen, skal du vælge det tal, der tydeligt er angivet som fakturanummer, f.eks. ved ord som “faktura”, “fakturanr.”, “invoice no.” eller lignende.\n\nDu må KUN svare med selve fakturanummeret – ingen tekst før eller efter, ingen forklaringer, ingen citationstegn.\n\nHvis du med høj sikkerhed vurderer, at der ikke findes et fakturanummer i teksten, skal du svare præcis med:\n\nNONE\n\nOutput:\n\nEnten: kun fakturanummeret (f.eks. 12345678)\n\nEller: NONE"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        272,
+        1232
+      ],
+      "id": "d334dcf9-fb3c-42eb-8d72-f3041085e6f2",
+      "name": "AI Agent4"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        1392
+      ],
+      "id": "fb19de2c-ede6-4d9d-9669-1c7d7ff4b7a2",
+      "name": "OpenAI Chat Model6"
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"CRZ910MI/GetCustomerSett\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "CUNO",
+              "value": "1044124000"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        672,
+        1232
+      ],
+      "id": "b0a6670e-fb42-4789-90a6-860c3e72b3f2",
+      "name": "HTTP Request18",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        1376
+      ],
+      "id": "60792981-b76f-4a70-8029-7d6e7839f5d6",
+      "name": "Get many records12",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        1376
+      ],
+      "id": "e1767ae3-b547-4e81-bd10-90d7e16ddc61",
+      "name": "Get many records13",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e60109b1-c010-447b-9a37-c47020ea61ac",
+              "leftValue": "={{ $json.results[0].records[0].M380 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        1232
+      ],
+      "id": "384bea10-8131-4860-b076-cb8cf1e1704c",
+      "name": "If12"
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2512,
+        1200
+      ],
+      "id": "eed8e699-060f-41a1-b9fa-33267fa83626",
+      "name": "Get many records14",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        1200
+      ],
+      "id": "20ee136a-7df6-49ed-bf42-c1a8750fe2ce",
+      "name": "Get many records15",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.id }}",
+          "mode": "id"
+        },
+        "message": "=\n",
+        "options": {
+          "saveAsDraft": true
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        3024,
+        1376
+      ],
+      "id": "ca74bc22-3884-4304-8ef1-861f67198c9c",
+      "name": "Reply to a message7",
+      "webhookId": "f7f075b0-f251-4efb-9348-b86d8a44eb49",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.from }}",
+          "mode": "id"
+        },
+        "message": "test",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        3680,
+        1200
+      ],
+      "id": "89fc3325-79f4-4ec1-91a9-1a4c3e854922",
+      "name": "Reply to a message6",
+      "webhookId": "6f708fef-2e5b-46af-bb96-02f121c68967",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{$vars.M3API + \"CRZ910MI/GetCustomerSett\"}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "CUNO",
+              "value": "1044124000"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1664,
+        1200
+      ],
+      "id": "a9aed7d2-d905-44c3-80ea-cc932a3b60e3",
+      "name": "HTTP Request19",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": {
+          "__rl": true,
+          "value": "={{ $('Microsoft Outlook Trigger').item.json.from }}",
+          "mode": "id"
+        },
+        "message": "\n\nhttps://ao.dk/mit-overblik/kontoudtog",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        608,
+        1840
+      ],
+      "id": "108a9a7b-6e31-43e4-a14e-42bc173c4647",
+      "name": "Reply to a message8",
+      "webhookId": "928a6e83-e3e8-4728-a7c7-384dd893671e",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        144,
+        1840
+      ],
+      "id": "15d300ee-f980-456b-9229-ece9dc36544f",
+      "name": "Get many records16",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "database",
+        "operation": "getMany"
+      },
+      "type": "n8n-nodes-preview-softr.softr",
+      "typeVersion": 1,
+      "position": [
+        400,
+        1840
+      ],
+      "id": "d40d79bc-f5a9-435b-ba0d-e41403f9c784",
+      "name": "Get signatur1",
+      "credentials": {}
+    }
+  ],
+  "connections": {
+    "Microsoft Outlook Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "GET Intern prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GET Rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Intern prompts": {
+      "main": [
+        [
+          {
+            "node": "Filter prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Rules": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Intern / Extern",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Create a draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many records16",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Henter prompter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages in Microsoft Outlook": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent Extren mails",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Extren mails",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Henter prompter": {
+      "main": [
+        [
+          {
+            "node": "Filter Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Henter skrivestil": {
+      "main": [
+        [
+          {
+            "node": "Filter skrivestil",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intern / Extern": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter skrivestil": {
+      "main": [
+        [
+          {
+            "node": "Henter signatur",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Henter signatur": {
+      "main": [
+        [
+          {
+            "node": "Filter signatur",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Skrivestil": {
+      "main": [
+        [
+          {
+            "node": "Filter skrivestil1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get signatur": {
+      "main": [
+        [
+          {
+            "node": "Filter signatur1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages in Microsoft Outlook1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Prompt": {
+      "main": [
+        [
+          {
+            "node": "Henter skrivestil",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter signatur": {
+      "main": [
+        [
+          {
+            "node": "AI Agent Extren mails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Extren mails": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter prompt": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter skrivestil1": {
+      "main": [
+        [
+          {
+            "node": "Get signatur",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter signatur1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get many records1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records": {
+      "main": [
+        [
+          {
+            "node": "Get many records3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records1": {
+      "main": [
+        [
+          {
+            "node": "Get many records2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records2": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get Skrivestil",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records3": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request10": {
+      "main": [
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request11": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request12": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records4": {
+      "main": [
+        [
+          {
+            "node": "Get many records5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records5": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many records4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records6": {
+      "main": [
+        [
+          {
+            "node": "Get many records7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records7": {
+      "main": [
+        [
+          {
+            "node": "Create a draft1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Get many records6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request13": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request14": {
+      "main": [
+        [
+          {
+            "node": "If9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If9": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If10": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many records8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request15": {
+      "main": [
+        [
+          {
+            "node": "If10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records8": {
+      "main": [
+        [
+          {
+            "node": "Get many records9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records9": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request9": {
+      "main": [
+        [
+          {
+            "node": "Get many records10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records10": {
+      "main": [
+        [
+          {
+            "node": "Get many records11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records11": {
+      "main": [
+        [
+          {
+            "node": "Create a draft2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If11": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records12": {
+      "main": [
+        [
+          {
+            "node": "Get many records13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request18": {
+      "main": [
+        [
+          {
+            "node": "If12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If12": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request19",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many records12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records14": {
+      "main": [
+        [
+          {
+            "node": "Get many records15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records15": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records13": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request19": {
+      "main": [
+        [
+          {
+            "node": "Get many records14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many records16": {
+      "main": [
+        [
+          {
+            "node": "Get signatur1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get signatur1": {
+      "main": [
+        [
+          {
+            "node": "Reply to a message8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 0,
+  "versionId": "9f0e1701-bcfb-47d7-9025-a42d9c364e16",
+  "owner": {
+    "type": "team",
+    "teamId": "IyVUbjJH6JrnBuqv",
+    "teamName": "My project 4"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}
