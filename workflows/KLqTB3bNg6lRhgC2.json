@@ -74,6 +74,19 @@
           "name": "Microsoft Outlook account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "29cc19f4-7744-403c-99a4-7ad86adf6464",
+      "name": "Edit Fields1"
     }
   ],
   "connections": {
@@ -98,13 +111,24 @@
           }
         ]
       ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "triggerCount": 1,
-  "versionId": "eae1bb7b-c856-4d2b-9ffa-d072190b6064",
+  "versionId": "e09fbdf0-efa0-4f84-9acc-04a6422540af",
   "owner": {
     "type": "personal",
     "projectId": "TiIx8aSrjHVV0B92",
