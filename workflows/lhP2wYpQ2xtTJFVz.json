@@ -1,0 +1,569 @@
+{
+  "id": "lhP2wYpQ2xtTJFVz",
+  "name": "Philip_Test_Complex",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlookTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1568,
+        208
+      ],
+      "id": "9fa5f971-06c3-4d96-b4e1-c9b8f09b7a94",
+      "name": "Microsoft Outlook Trigger",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{ $json.from }}",
+              "rightValue": "@",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1344,
+        208
+      ],
+      "id": "1b5a3a85-208b-4ba0-8d43-490ebd9d7456",
+      "name": "If Valid Email"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "field-1",
+              "name": "subject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "field-2",
+              "name": "from",
+              "value": "={{ $json.from }}",
+              "type": "string"
+            },
+            {
+              "id": "field-3",
+              "name": "bodyPreview",
+              "value": "={{ $json.bodyPreview }}",
+              "type": "string"
+            },
+            {
+              "id": "field-4",
+              "name": "receivedAt",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        112
+      ],
+      "id": "3b0edf6a-79dc-4cbc-ac79-7ba0d5fab3d6",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "subject",
+              "value": "={{ $json.subject }}"
+            },
+            {
+              "name": "from",
+              "value": "={{ $json.from }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -880,
+        112
+      ],
+      "id": "fd4fe50f-8486-44d0-baf7-fcfc0e1ba4ef",
+      "name": "HTTP Request 1"
+    },
+    {
+      "parameters": {
+        "url": "https://httpbin.org/get",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -656,
+        112
+      ],
+      "id": "6b5351bf-388c-4e98-82a4-e24aa246e879",
+      "name": "HTTP Request 2"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Classify this email subject into one category: Support, Sales, or Other.\n\nSubject: {{ $('Edit Fields').item.json.subject }}\n\nRespond with just the category name."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -592,
+        -48
+      ],
+      "id": "d0ff5ab2-be54-4cea-b33d-118f1da7f0b9",
+      "name": "OpenAI Classify",
+      "credentials": {
+        "openAiApi": {
+          "id": "lorSCu5vt1BuleCQ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "switch-cond-1",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "Support",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Support"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "switch-cond-2",
+                    "leftValue": "={{ $json.message.content }}",
+                    "rightValue": "Sales",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sales"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -224,
+        112
+      ],
+      "id": "eb7f1ff3-4178-43c9-8b52-de5a6dd802ee",
+      "name": "Switch Category"
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "=Re: {{ $('Edit Fields').item.json.subject }}",
+        "bodyContent": "=Thank you for contacting support. We have received your email and will respond shortly.\n\nOriginal message:\n{{ $('Edit Fields').item.json.bodyPreview }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "96eb7b52-9295-4612-a274-6a520e4a118a",
+      "name": "Create Support Draft",
+      "webhookId": "699382f6-001e-425d-accc-c205f487da54",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "=Re: {{ $('Edit Fields').item.json.subject }}",
+        "bodyContent": "=Thank you for your interest! Our sales team will be in touch shortly.\n\nOriginal message:\n{{ $('Edit Fields').item.json.bodyPreview }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        160
+      ],
+      "id": "b29795bc-9434-457b-8985-6b6c1f8a8a35",
+      "name": "Create Sales Draft",
+      "webhookId": "c045a0d8-7abb-4eb1-b7c8-f7ce13c48613",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "=Re: {{ $('Edit Fields').item.json.subject }}",
+        "bodyContent": "=Thank you for your email. We will review and respond accordingly.\n\nOriginal message:\n{{ $('Edit Fields').item.json.bodyPreview }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        320
+      ],
+      "id": "3cb46e1b-821d-494b-a016-09ba091efe59",
+      "name": "Create Other Draft",
+      "webhookId": "71b9e586-41ea-49d9-a875-2f98e7d981ed",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "9ddSbrhqf9zxREDk",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "logged_support"
+            },
+            {
+              "name": "subject",
+              "value": "={{ $('Edit Fields').item.json.subject }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "2c0d0704-5c17-4683-a2ae-1de64ae5f954",
+      "name": "Log Support"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "logged_sales"
+            },
+            {
+              "name": "subject",
+              "value": "={{ $('Edit Fields').item.json.subject }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        160
+      ],
+      "id": "a8ef0aa7-584b-4190-9e5b-a0c5fd00fc0d",
+      "name": "Log Sales"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "logged_other"
+            },
+            {
+              "name": "subject",
+              "value": "={{ $('Edit Fields').item.json.subject }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        320
+      ],
+      "id": "07353aa5-655c-4be9-a602-685b6f2b2469",
+      "name": "Log Other"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "invalid-1",
+              "name": "status",
+              "value": "invalid_email",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1104,
+        304
+      ],
+      "id": "db79c7b2-23f4-4c31-aebb-14200df5d783",
+      "name": "Mark Invalid"
+    }
+  ],
+  "connections": {
+    "Microsoft Outlook Trigger": {
+      "main": [
+        [
+          {
+            "node": "If Valid Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Valid Email": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark Invalid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request 1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request 2": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Classify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Classify": {
+      "main": [
+        [
+          {
+            "node": "Switch Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Category": {
+      "main": [
+        [
+          {
+            "node": "Create Support Draft",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Sales Draft",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Other Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Support Draft": {
+      "main": [
+        [
+          {
+            "node": "Log Support",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Sales Draft": {
+      "main": [
+        [
+          {
+            "node": "Log Sales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Other Draft": {
+      "main": [
+        [
+          {
+            "node": "Log Other",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 1,
+  "versionId": "557498ab-02c9-4987-8840-5ae9c335b8b2",
+  "owner": {
+    "type": "team",
+    "teamId": "IyVUbjJH6JrnBuqv",
+    "teamName": "My project 4"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}

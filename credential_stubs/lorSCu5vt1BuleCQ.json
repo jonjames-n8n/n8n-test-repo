@@ -1,0 +1,14 @@
+{
+  "id": "lorSCu5vt1BuleCQ",
+  "name": "OpenAi account",
+  "type": "openAiApi",
+  "data": {
+    "apiKey": ""
+  },
+  "ownedBy": {
+    "type": "team",
+    "teamId": "IyVUbjJH6JrnBuqv",
+    "teamName": "My project 4"
+  },
+  "isGlobal": false
+}
