@@ -1,0 +1,61 @@
+{
+  "id": "WQgGSiOQjoTylwpf",
+  "name": "16th Jan 1",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7ecebf7c-f233-47be-b3cd-8f800312ff2c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "59f52e96-44fb-4bfc-ab3b-9c3ca2071522",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 1,
+  "versionId": "e2cf4050-ae0a-4bae-bd8f-322692de6798",
+  "owner": {
+    "type": "team",
+    "teamId": "Nvhh7e5wEryAsbGB",
+    "teamName": "16th Jan"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}

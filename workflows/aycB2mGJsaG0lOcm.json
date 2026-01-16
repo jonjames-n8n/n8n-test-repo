@@ -1,0 +1,61 @@
+{
+  "id": "aycB2mGJsaG0lOcm",
+  "name": "16th Jan proj 2 workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9612aba7-082a-4da9-9744-0926b71ad2c7",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "38a79067-7218-4319-a38f-16814c061baf",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "triggerCount": 1,
+  "versionId": "6020cae8-d672-4b1c-9944-a256f36f26da",
+  "owner": {
+    "type": "team",
+    "teamId": "FZiSwyJ8u1GZnikX",
+    "teamName": "16th Jan proj 2"
+  },
+  "parentFolderId": null,
+  "isArchived": false
+}
