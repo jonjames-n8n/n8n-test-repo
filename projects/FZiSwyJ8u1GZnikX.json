@@ -1,0 +1,16 @@
+{
+  "id": "FZiSwyJ8u1GZnikX",
+  "name": "16th Jan proj 2",
+  "icon": {
+    "type": "icon",
+    "value": "layers"
+  },
+  "description": "",
+  "type": "team",
+  "owner": {
+    "type": "team",
+    "teamId": "FZiSwyJ8u1GZnikX",
+    "teamName": "16th Jan proj 2"
+  },
+  "variableStubs": []
+}

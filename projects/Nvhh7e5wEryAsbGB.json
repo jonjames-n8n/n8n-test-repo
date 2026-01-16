@@ -1,0 +1,16 @@
+{
+  "id": "Nvhh7e5wEryAsbGB",
+  "name": "16th Jan",
+  "icon": {
+    "type": "icon",
+    "value": "layers"
+  },
+  "description": "",
+  "type": "team",
+  "owner": {
+    "type": "team",
+    "teamId": "Nvhh7e5wEryAsbGB",
+    "teamName": "16th Jan"
+  },
+  "variableStubs": []
+}
