@@ -6,7 +6,10 @@
       "parameters": {
         "rule": {
           "interval": [
-            {}
+            {
+              "field": "seconds",
+              "secondsInterval": 1
+            }
           ]
         }
       },
@@ -73,8 +76,8 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "triggerCount": 0,
-  "versionId": "62c5f8d9-24ba-4b42-a4f2-8423cb7687f0",
+  "triggerCount": 1,
+  "versionId": "79c407ce-26c1-40a2-8e57-ffa3f7d45e67",
   "owner": {
     "type": "team",
     "teamId": "FZiSwyJ8u1GZnikX",
