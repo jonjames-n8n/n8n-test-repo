@@ -1,6 +1,6 @@
 {
   "id": "9yLwVQ1WayA7PIMJ",
-  "name": "Jon Cred",
+  "name": "Jon Cred 2",
   "type": "httpHeaderAuth",
   "data": {
     "name": ""
@@ -9,5 +9,6 @@
     "type": "team",
     "teamId": "aCFfOfzzyKSQghM3",
     "teamName": "Test Project"
-  }
+  },
+  "isGlobal": false
 }
